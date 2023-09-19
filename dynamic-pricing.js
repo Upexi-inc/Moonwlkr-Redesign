@@ -24,6 +24,27 @@ window.addEventListener('DOMContentLoaded', () => {
         //FUNCTIONS
 
         //calculate price functions
+        //calculate regular price
+        function calculateRegularPrice() {
+            //declare variable to hold the result of this calculation
+            let regularPriceResult;
+
+            //check to see if item is on sale - this is important as it will determine where we'll get the regular price value
+            if (document.querySelector('.product-display span.onsale') !== null) {
+                //store calculation in variable - sale price x quantity
+                //if it's on sale, it will grab the already declared regularPrice variable value
+                regularPriceResult = inputQtyNumber * regularPrice;
+            } else {
+                //if it's not on sale, the price value is grabbed from the item global variable
+                regularPrice = Number(item.price);
+                //store calculation in variable - sale price x quantity
+                regularPriceResult = inputQtyNumber * regularPrice;
+            }
+
+            //return calculation result to be used in other functions
+            return regularPriceResult;
+        }
+
         //calculate sale price
         function calculateSalePrice() {
             //store calculation in variable - sale price x quantity
@@ -32,30 +53,35 @@ window.addEventListener('DOMContentLoaded', () => {
             return salePriceResult;
         }
 
-        //calculate regular price
-        function calculateRegularPrice() {
-            //store calculation in variable - sale price x quantity
-            let regularPriceResult = inputQtyNumber * regularPrice;
-            //return calculation result to be used in other functions
-            return regularPriceResult;
-        }
-
         //function to update price
         function updatePrice() {
-            //store calculation results in respective price variables
+            //declare regularPriceContainer with no value as of yet. this is because if the product is not on sale, there will be no distinction between regular and sale prices HTML elements - so no <del> or <ins> elements
+            let regularPriceContainer;
+
+            //update regular price first as product may not be on sale
             let regularPriceNumber = calculateRegularPrice();
-            let salePriceNumber = calculateSalePrice();
 
             //update price value in corresponding html elements
             //grab regular price html element
-            let regularPriceContainer = document.querySelector('.redesign-product-price del .woocommerce-Price-amount bdi');
+            regularPriceContainer = document.querySelector('.redesign-product-price .woocommerce-Price-amount bdi');
             //change regular price inner html to reflect new price
             regularPriceContainer.innerHTML = `<span class="woocommerce-Price-currencySymbol">$</span>${regularPriceNumber}`;
 
-            //grab sale price html element
-            const salePriceContainer = document.querySelector('.redesign-product-price ins .woocommerce-Price-amount bdi');
-            //change sale price inner html to reflect new price
-            salePriceContainer.innerHTML = `<span class="woocommerce-Price-currencySymbol">$</span>${salePriceNumber}`;
+            //check to see if item is on sale - this means that the price HTML elements will be different <del> and <ins>
+            if (document.querySelector('.product-display span.onsale') !== null) {
+                //we only need to calculate the sale price inside this condition, otherwise it will throw an error in products that are not on sale
+                let salePriceNumber = calculateSalePrice();
+
+                //grab sale price html element
+                const salePriceContainer = document.querySelector('.redesign-product-price ins .woocommerce-Price-amount bdi');
+                //change sale price inner html to reflect new price
+                salePriceContainer.innerHTML = `<span class="woocommerce-Price-currencySymbol">$</span>${salePriceNumber}`;
+
+                //grab regular price html element
+                regularPriceContainer = document.querySelector('.redesign-product-price .woocommerce-Price-amount bdi');
+                //change regular price inner html to reflect new price
+                regularPriceContainer.innerHTML = `<span class="woocommerce-Price-currencySymbol">$</span>${regularPriceNumber}`;
+            }
         }
 
 
