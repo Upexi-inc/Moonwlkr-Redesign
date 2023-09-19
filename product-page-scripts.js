@@ -40,22 +40,19 @@ window.addEventListener('DOMContentLoaded', () => {
         let salePrice = Number(item.price);
 
         //the item global variable only contains its current price which in the most common scenario is the sale price
-        //to get the regular price, i'll have to grab it from the HTML price element, which will return a string
+        //to get the regular price, i'll have to grab it from the HTML price element on page load because it will change its value if the quantity is changed
         //to get the value in a number, I have to split the string in two to grab the number after the dollar sign
         //by using split() i'll get an array, where the number will be index 1
         //all this is wrapped in Number() to get a number
-        let regularPrice = Number(document.querySelector('.redesign-product-price del .woocommerce-Price-amount bdi').innerText.split('$')[1]);
+        let regularPrice;
+
+        if (document.querySelector('.product-display span.onsale') !== null) {
+            regularPrice = Number(document.querySelector('.redesign-product-price del .woocommerce-Price-amount bdi').innerText.split('$')[1]);
+        }
 
         //grab all variation buttons under one variable
         //we'll use this to do a for each click event listener in order to change the price according to variation selected
         const variationButtons = document.querySelectorAll('.button-variable-item');
-
-        //grab variation form that contains variation prices
-        const variantionFormContainer = document.querySelector('form.variations_form');
-
-        //grab product variations from the variation form json
-        //this contains the display_price (price on sale) and display_regular_price (regular price) values required to calculate the price of the product
-        const formVariationsJSON = JSON.parse(variantionFormContainer.dataset.product_variations);
 
         //variable to hold the clicked variation button index number
         //currently at 0 because that's the index of the default variation on page load
@@ -103,10 +100,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
         //Go through each variation buttons
         variationButtons.forEach(button => {
+            //change product price according to clicked variation
             button.addEventListener('click', function () {
-                //assign new clicked button index value 
+                //assign new clicked button index value
                 clickedBtnIdx = Array.from(variationButtons).indexOf(button);
-                //run the price function to get the new variant prices
+                //run the price function to get the new variation prices
                 price();
                 //run the updatePriceElements function to change price values on their respective html elements
                 updatePriceElements();
@@ -133,9 +131,30 @@ window.addEventListener('DOMContentLoaded', () => {
 
                 if (document.querySelector('form.cart').classList.contains('variations_form')) {
                     //scenario 2: if the product is both on sale and has variants, pass the clicked variant prices as parameters onto the calculatePrice function
-                    regularPriceValue = calculatePrice(Number(formVariationsJSON[clickedBtnIdx].display_regular_price));
-                    salePriceValue = calculatePrice(Number(formVariationsJSON[clickedBtnIdx].display_price));
+
+                    //grab variation form that contains variation prices
+                    const variantionFormContainer = document.querySelector('form.variations_form');
+
+                    //grab product variations from the variation form json
+                    //this contains the display_price (price on sale) and display_regular_price (regular price) values required to calculate the price of the product
+                    const formVariationsJSON = JSON.parse(variantionFormContainer.dataset.product_variations);
+
+                    //check if it's an amanita product because button index does not match json index - default variation is 0 but button is 1
+                    if (item.categories.includes('Amanita Muscaria Gummies')) {
+                        if (clickedBtnIdx === 1) {
+                            regularPriceValue = calculatePrice(Number(formVariationsJSON[0].display_regular_price));
+                            salePriceValue = calculatePrice(Number(formVariationsJSON[0].display_price));
+                        } else {
+                            regularPriceValue = calculatePrice(Number(formVariationsJSON[1].display_regular_price));
+                            salePriceValue = calculatePrice(Number(formVariationsJSON[1].display_price));
+                        }
+                        //for all other products with variations
+                    } else {
+                        regularPriceValue = calculatePrice(Number(formVariationsJSON[clickedBtnIdx].display_regular_price));
+                        salePriceValue = calculatePrice(Number(formVariationsJSON[clickedBtnIdx].display_price));
+                    }
                 }
+
             } else {
                 //scenario 3: product is not on sale and does not have variants
                 regularPriceValue = calculatePrice(item.price);
