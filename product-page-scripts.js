@@ -1,229 +1,186 @@
 window.addEventListener('DOMContentLoaded', () => {
     //setTimeout to allow all elements to load that for some reason don't load with DOM
     setTimeout(() => {
-        //quantity input type number
-        const quantityInput = document.querySelector('.quantity input.qty');
 
-        //declare quantity input container
-        const quantityInputContainer = document.querySelector('.woocommerce div.product form.cart div.quantity');
+        //declare add to cart button element
+        const productAddToCartBtn = document.querySelector('.product-display .single_add_to_cart_button');
 
-        //create quantity select buttons
-        const stepUpButton = createStepUpBtn();
-        const stepDownButton = createStepDownBtn();
+        //quantity input container
+        const quantityInputContainer = document.querySelector('.woocommerce div.product form.cart div.quantity, .woocommerce-page div.product form.cart div.quantity');
 
-        //hold quantity input value in variable 
-        //this will be important later
+        //quantity input element
+        const quantityInput = document.querySelector('.et_pb_wc_add_to_cart_0_tb_body .quantity input.qty');
+
+        //hold quantity input value in a variable 
+        //at page load this number will be 1, but we'll update its value every time the user clicks + or - or writes a number on the input
         let inputQtyNumber = Number(quantityInput.value);
 
-        //dynamically disable add to cart button when product is unavailable
-        //declare add to cart button
-        const productAddToCartBtn = document.querySelector('.product-display .single_add_to_cart_button');
+        //create + button
+        const stepUpButton = document.createElement('button');
+        const stepUpButtonIcon = document.createElement('i');
+
+        stepUpButton.setAttribute('type', 'button');
+        quantityInputContainer.appendChild(stepUpButton);
+        stepUpButton.appendChild(stepUpButtonIcon);
+        stepUpButtonIcon.classList.add('fa-solid', 'fa-plus', 'increment-button');
+
+        //create - button
+        const stepDownButton = document.createElement('button');
+
+        const stepDownButtonIcon = document.createElement('i');
+
+        stepDownButton.setAttribute('type', 'button');
+        quantityInputContainer.prepend(stepDownButton);
+        stepDownButton.appendChild(stepDownButtonIcon);
+        stepDownButtonIcon.classList.add('fa-solid', 'fa-minus', 'increment-button');
+
+        //declaring variables to contain sale and regular price values
+        //sale and regular prices for the most common scenario (products are almost always on sale)
+        //grabbing sale price from the item global variable and transforming it into a number
+        let salePrice = Number(item.price);
+
+        //the item global variable only contains its current price which in the most common scenario is the sale price
+        //to get the regular price, i'll have to grab it from the HTML price element, which will return a string
+        //to get the value in a number, I have to split the string in two to grab the number after the dollar sign
+        //by using split() i'll get an array, where the number will be index 1
+        //all this is wrapped in Number() to get a number
+        let regularPrice = Number(document.querySelector('.redesign-product-price del .woocommerce-Price-amount bdi').innerText.split('$')[1]);
+
+        //grab all variation buttons under one variable
+        //we'll use this to do a for each click event listener in order to change the price according to variation selected
+        const variationButtons = document.querySelectorAll('.button-variable-item');
+
+        //grab variation form that contains variation prices
+        const variantionFormContainer = document.querySelector('form.variations_form');
+
+        //grab product variations from the variation form json
+        //this contains the display_price (price on sale) and display_regular_price (regular price) values required to calculate the price of the product
+        const formVariationsJSON = JSON.parse(variantionFormContainer.dataset.product_variations);
+
+        //variable to hold the clicked variation button index number
+        //currently at 0 because that's the index of the default variation on page load
+        let clickedBtnIdx = 0;
+
         //check if button contains the "unavailable product" class
         if (productAddToCartBtn.classList.contains('wc-variation-is-unavailable')) {
+            //if true change the inner html
             productAddToCartBtn.innerHTML = 'out of stock';
         }
 
-        //add discount tooltip to products containing bottle qty variants
-        //declare variant buttons
-        const variantButtons = document.querySelectorAll('.button-variable-item');
-
-        //create discount variant tooltips - excluding on Amanita and/or Merch products
-        if (!item.categories.includes('Amanita Muscaria Gummies') && !item.categories.includes('Merchandise')) {
-            if (document.querySelector('form.cart').classList.contains('variations_form')) {
-                createDiscount10Tooltip();
-            }
-            if (variantButtons.length > 2) {
-                createDiscount15Tooltip();
-            }
-        }
-
-        //declare sale price container most products are on sale so i'm including the path to the sale price <p> (html element <ins>)
-        const salePrice = document.querySelector('.et_pb_wc_price ins span.woocommerce-Price-amount.amount bdi');
-
-        //variable to store sale price innerText array - on this array we'll find the price and isolate it for the price calculation - it's empty because its value will change depending on what function is running - leaving it empty as some products are not on sale
-        let variantSalePriceArray;
-
-        //assign value to the array to store the original sale price array
-        if (document.querySelector('.product-display span.onsale') !== null) {
-            variantSalePriceArray = salePrice.innerText.split('$');
-        }
-
-        //declare sale price container - most products are on sale so i'm including the path to the regular price <p> (html element <del>)
-        const regularPrice = document.querySelector('.et_pb_wc_price del span.woocommerce-Price-amount.amount bdi');
-
-        //declare regular price innerText array - on this array we'll find the price and isolate it for the price calculation
-        let variantRegularPriceArray = regularPrice.innerText.split('$');
-
-        //increase input number, update input value variable and update price according to qty
+        //increase input number
         stepUpButton.addEventListener('click', () => {
+            //increase quantity by 1
             quantityInput.stepUp();
-            //update variable with quantity ammount number - this will be important later
+            //update quantity number value
             inputQtyNumber = Number(quantityInput.value);
-            updatePrice();
+            //run the price function to get the new variation prices
+            price();
+            //run the updatePriceElements function to change price values on their respective html elements
+            updatePriceElements();
         });
 
-        //decrease input number, update input value variable and update price according to qty
+        //decrease input number
         stepDownButton.addEventListener('click', () => {
+            //decrease quantity by 1
             quantityInput.stepDown();
-            //update variable with quantity ammount number - this will be important later
+            //update quantity number value
             inputQtyNumber = Number(quantityInput.value);
-            updatePrice();
-        });
-
-        //calculate price of item according to variant and quantity
-        variantButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                //small set timeout to wait for the variant price to change in its hidden container
-                setTimeout(() => {
-                    updatePrice();
-                }, "20");
-            })
+            //run the price function to get the new variation prices
+            price();
+            //run the updatePriceElements function to change price values on their respective html elements
+            updatePriceElements();
         });
 
         //update price if customer types in number instead of using the + - buttons
         quantityInput.addEventListener('change', () => {
             //update input value
             inputQtyNumber = Number(quantityInput.value);
-            updatePrice();
+            //run the price function to get the new variation prices
+            price();
+            //run the updatePriceElements function to change price values on their respective html elements
+            updatePriceElements();
         });
 
-        //---------FUNCTIONS-----------
+        //Go through each variation buttons
+        variationButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                //assign new clicked button index value 
+                clickedBtnIdx = Array.from(variationButtons).indexOf(button);
+                //run the price function to get the new variant prices
+                price();
+                //run the updatePriceElements function to change price values on their respective html elements
+                updatePriceElements();
+            });
+        });
 
-        //functions to create + and - buttons on qty select
-        //create + button
-        function createStepUpBtn() {
-            //create button element
-            const stepUpButton = document.createElement('button');
-            //create icon element inside button
-            const stepUpButtonIcon = document.createElement('i');
+        //FUNCTIONS
 
-            //append button to quantity container
-            quantityInputContainer.appendChild(stepUpButton);
-            //append icon to button
-            stepUpButton.appendChild(stepUpButtonIcon);
-            //set button type attribute
-            stepUpButton.setAttribute('type', 'button');
-            //add font awesome classes to icon
-            stepUpButtonIcon.classList.add('fa-solid', 'fa-plus', 'increment-button');
-
-            return stepUpButton;
+        //calculate price function
+        function calculatePrice(priceValue) {
+            //multiply quantity value by price value
+            return (inputQtyNumber * priceValue).toFixed(2);
         }
 
-        //create - button
-        function createStepDownBtn() {
-            //create button element
-            const stepDownButton = document.createElement('button');
+        //function to calculate prices based on different scenarios
+        function price() {
+            let regularPriceValue;
+            let salePriceValue;
 
-            //create icon element inside button
-            const stepDownButtonIcon = document.createElement('i');
-
-            //append button to quantity container
-            stepDownButton.setAttribute('type', 'button');
-            //append icon to button
-            quantityInputContainer.prepend(stepDownButton);
-            //set button type attribute
-            stepDownButton.appendChild(stepDownButtonIcon);
-            //add font awesome classes to icon
-            stepDownButtonIcon.classList.add('fa-solid', 'fa-minus', 'increment-button');
-
-            return stepDownButton;
-        }
-
-        //function to create 10% discount tooltip
-        function createDiscount10Tooltip() {
-            //pick second variant button
-            const variantDiscount10Button = variantButtons[1];
-            //create span that will wrap the tooltip
-            const variantDiscount10 = document.createElement('span');
-            //append this span to the button
-            variantDiscount10Button.appendChild(variantDiscount10);
-            //add inner text with the discount text
-            variantDiscount10.innerText = "save 10%";
-            //add class to style the tooltip
-            variantDiscount10.classList.add('variation-discount-tooltip');
-        }
-
-        //function to create 15% discount tooltip
-        function createDiscount15Tooltip() {
-            //pick second variant button
-            const variantDiscount15Button = variantButtons[2];
-            //create span that will wrap the tooltip
-            const variantDiscount15 = document.createElement('span');
-            //append this span to the button
-            variantDiscount15Button.appendChild(variantDiscount15);
-            //add inner text with the discount text
-            variantDiscount15.innerText = "save 15%";
-            //add class to style the tooltip
-            variantDiscount15.classList.add('variation-discount-tooltip');
-        }
-
-        //function to calculate regular price according to quantity selected
-        function calculateRegularPrice() {
-            //check if product contains variants
-            //if true, split the variation price container's inner text - this element is hidden on the product page
-            if (document.querySelector('form.cart').classList.contains('variations_form')) {
-                //check if product is on sale to include the <del> html element on the path
-                if (document.querySelector('.product-display span.onsale') !== null) {
-                    variantRegularPriceArray = document.querySelector('.woocommerce-variation-price span.price del span.woocommerce-Price-amount.amount bdi').innerText.split('$');
-                } else {
-                    variantRegularPriceArray = document.querySelector('.woocommerce-variation-price span.price span.woocommerce-Price-amount.amount bdi').innerText.split('$');
-                }
-            }
-
-            //declare regular price value string to turn into number in update price functions
-            const regularPriceValue = variantRegularPriceArray[1];
-
-            //multiply quantity value by regular price and store it in variable
-            let regularPriceResult = inputQtyNumber === 1 ? parseFloat(regularPriceValue) : (parseFloat(regularPriceValue) * inputQtyNumber).toFixed(2);
-
-            console.log(regularPriceResult);
-
-            return regularPriceResult;
-        }
-
-        //function to calculate sale price according to quantity selected 
-        function calculateSalePrice() {
-            //check if product is on sale
             if (document.querySelector('.product-display span.onsale') !== null) {
-                //check if product has variants
+                //scenario 1: if the product is on sale pass regular and sale price parameters onto the calculatePrice function
+                regularPriceValue = calculatePrice(regularPrice);
+                salePriceValue = calculatePrice(salePrice);
+
                 if (document.querySelector('form.cart').classList.contains('variations_form')) {
-                    //define the variant price array
-                    variantSalePriceArray = document.querySelector('.woocommerce-variation-price span.price ins span.woocommerce-Price-amount.amount bdi').innerText.split('$');
-                }
-
-                //declare sale price value string to turn into number in update price functions
-                const salePriceValue = variantSalePriceArray[1];
-
-                //multiply quantity value by regular price and store it in variable
-                let salePriceResult = inputQtyNumber === 1 ? parseFloat(salePriceValue) : (parseFloat(salePriceValue) * inputQtyNumber).toFixed(2);
-
-                console.log(salePriceResult);
-                return salePriceResult;
-            }
-        }
-
-        function updatePrice() {
-            //grab return value from calculateRegularPrice function
-            let regularPriceNumber = calculateRegularPrice();
-
-            //check if product has variants
-            if (document.querySelector('form.cart').classList.contains('variations_form')) {
-                //check if product is on sale
-                if (document.querySelector('.product-display span.onsale') !== null) {
-                    regularPrice.innerHTML = `<span class="woocommerce-Price-currencySymbol">$</span>${regularPriceNumber}`;
-                } else {
-                    document.querySelector('.et_pb_wc_price span.woocommerce-Price-amount.amount bdi').innerHTML = `<span class="woocommerce-Price-currencySymbol">$</span>${regularPriceNumber}`;
+                    //scenario 2: if the product is both on sale and has variants, pass the clicked variant prices as parameters onto the calculatePrice function
+                    regularPriceValue = calculatePrice(Number(formVariationsJSON[clickedBtnIdx].display_regular_price));
+                    salePriceValue = calculatePrice(Number(formVariationsJSON[clickedBtnIdx].display_price));
                 }
             } else {
-                document.querySelector('.et_pb_wc_price span.woocommerce-Price-amount.amount bdi').innerHTML = `<span class="woocommerce-Price-currencySymbol">$</span>${regularPriceNumber}`;
+                //scenario 3: product is not on sale and does not have variants
+                regularPriceValue = calculatePrice(item.price);
             }
 
-            //grab return value from calculateSalePrice function and update sale price innerHTML only when the product is on sale
+            //return the two prices values as an array to be used in the updatePriceElements function
+            return [regularPriceValue, salePriceValue];
+        }
+
+        function updatePriceElements() {
+            //grab prices array from the price function
+            let prices = price();
+
+            //declare regular price container as an empty variable as the container is different depending on the scenario
+            let regularPriceContainer;
+
+            //grab regular price from the prices array
+            let regularPriceNumber = prices[0];
+
+            //if item is on sale
             if (document.querySelector('.product-display span.onsale') !== null) {
-                let salePriceNumber = calculateSalePrice();
-                //update sale price innerHTML
-                salePrice.innerHTML = `<span class="woocommerce-Price-currencySymbol">$</span>${salePriceNumber}`;
+                //declare the sale price HTML element
+                let salePriceContainer = document.querySelector('.redesign-product-price ins .woocommerce-Price-amount bdi');
+
+                //assign sale price from the prices array to a variable 
+                let salePriceNumber = prices[1];
+
+                //change sale price inner html to include the calculated sale price
+                salePriceContainer.innerHTML = `<span class="woocommerce-Price-currencySymbol">$</span>${salePriceNumber}`;
+
+                //assign new element to regularPriceContainer
+                regularPriceContainer = document.querySelector('.redesign-product-price del .woocommerce-Price-amount bdi');
+
+                //change regular price inner html to include the calculated regular price
+                regularPriceContainer.innerHTML = `<span class="woocommerce-Price-currencySymbol">$</span>${regularPriceNumber}`;
+
+            } else {
+
+                //if product is not on sale
+                //assign regular price container element 
+                regularPriceContainer = document.querySelector('.redesign-product-price .woocommerce-Price-amount bdi');
+
+                //change regular price inner html to include the calculated regular price
+                regularPriceContainer.innerHTML = `<span class="woocommerce-Price-currencySymbol">$</span>${regularPriceNumber}`;
             }
         }
     }, "500");
-})
+});

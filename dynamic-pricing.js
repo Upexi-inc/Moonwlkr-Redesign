@@ -186,7 +186,5 @@ window.addEventListener('DOMContentLoaded', () => {
                 regularPriceContainer.innerHTML = `<span class="woocommerce-Price-currencySymbol">$</span>${regularPriceNumber}`;
             }
         }*/
-
-
     }, "500");
 })
