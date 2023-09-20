@@ -21,23 +21,17 @@ window.addEventListener('DOMContentLoaded', () => {
         let inputQtyNumber = Number(quantityInput.value);
 
         //declare variant buttons to use them later to listen to a click event - each variant has different price values and we have to take that into account
-        const variantButtons = document.querySelectorAll('.button-variable-item');
-
-        //grab variation form that contains important info in its json
-        const variantionFormContainer = document.querySelector('form.variations_form');
-
-        //grab product variations from the variation form json
-        //this contains the display_price (price on sale) and display_regular_price (regular price) values required to calculate the price of the product
-        const formVariationsJSON = JSON.parse(variantionFormContainer.dataset.product_variations);
+        const variationButtons = document.querySelectorAll('.button-variable-item');
 
         let clickedBtnIdx = 0;
 
-        //update price when variant is clicked
-        variantButtons.forEach(button => {
+        //Go through each variation buttons
+        variationButtons.forEach(button => {
+            //change product price according to clicked variation
             button.addEventListener('click', function () {
-                //assign new clicked button index value 
-                clickedBtnIdx = Array.from(variantButtons).indexOf(button);
-                //run the price function to get the new variant prices
+                //assign new clicked button index value
+                clickedBtnIdx = Array.from(variationButtons).indexOf(button);
+                //run the price function to get the new variation prices
                 price();
                 //run the updatePriceElements function to change price values on their respective html elements
                 updatePriceElements();
@@ -64,9 +58,30 @@ window.addEventListener('DOMContentLoaded', () => {
 
                 if (document.querySelector('form.cart').classList.contains('variations_form')) {
                     //scenario 2: if the product is both on sale and has variants, pass the clicked variant prices as parameters onto the calculatePrice function
-                    regularPriceValue = calculatePrice(Number(formVariationsJSON[clickedBtnIdx].display_regular_price));
-                    salePriceValue = calculatePrice(Number(formVariationsJSON[clickedBtnIdx].display_price));
+
+                    //grab variation form that contains variation prices
+                    const variantionFormContainer = document.querySelector('form.variations_form');
+
+                    //grab product variations from the variation form json
+                    //this contains the display_price (price on sale) and display_regular_price (regular price) values required to calculate the price of the product
+                    const formVariationsJSON = JSON.parse(variantionFormContainer.dataset.product_variations);
+
+                    //check if it's an amanita product because button index does not match json index - default variation is 0 but button is 1
+                    if (item.categories.includes('Amanita Muscaria Gummies')) {
+                        if (clickedBtnIdx === 1) {
+                            regularPriceValue = calculatePrice(Number(formVariationsJSON[0].display_regular_price));
+                            salePriceValue = calculatePrice(Number(formVariationsJSON[0].display_price));
+                        } else {
+                            regularPriceValue = calculatePrice(Number(formVariationsJSON[1].display_regular_price));
+                            salePriceValue = calculatePrice(Number(formVariationsJSON[1].display_price));
+                        }
+                        //for all other products with variations
+                    } else {
+                        regularPriceValue = calculatePrice(Number(formVariationsJSON[clickedBtnIdx].display_regular_price));
+                        salePriceValue = calculatePrice(Number(formVariationsJSON[clickedBtnIdx].display_price));
+                    }
                 }
+
             } else {
                 //scenario 3: product is not on sale and does not have variants
                 regularPriceValue = calculatePrice(item.price);
