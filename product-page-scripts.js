@@ -54,6 +54,11 @@ window.addEventListener('DOMContentLoaded', () => {
         //we'll use this to do a for each click event listener in order to change the price according to variation selected
         const variationButtons = document.querySelectorAll('.button-variable-item');
 
+        //Create discount tooltips above the variation buttons only if there are product variations
+        if (document.querySelector('form.cart').classList.contains('variations_form')) {
+            createTooltips();
+        }
+
         //variable to hold the clicked variation button index number
         //currently at 0 because that's the index of the default variation on page load
         let clickedBtnIdx = 0;
@@ -119,6 +124,59 @@ window.addEventListener('DOMContentLoaded', () => {
         });
 
         //FUNCTIONS
+
+        function createTooltips() {
+            let tooltips = [];
+
+            let variationButtonsArray;
+
+            if (item.categories.includes('Amanita Muscaria Gummies')) {
+                variationButtonsArray = Array.of(Array.from(variationButtons)[0]);
+            } else {
+                variationButtonsArray = Array.from(variationButtons).slice(1);
+            }
+
+            variationButtonsArray.forEach(button => {
+                tooltips.push(button.appendChild(document.createElement('span')));
+            });
+
+            tooltips.forEach(tooltip => {
+                tooltip.classList.add('variation-discount-tooltip');
+            });
+
+            tooltips[0].innerText = "save 10%";
+
+            if (tooltips.length === 2) {
+                tooltips[1].innerText = "save 15%";
+            }
+        }
+
+        /*
+        //function to create 10% discount tooltip
+        function createDiscount10Tooltip() {
+            //create span that will wrap the tooltip
+            const variationDiscount10 = document.createElement('span');
+            //append this span to the button
+            variationButtons[1].appendChild(variationDiscount10);
+            //add inner text with the discount text
+            variationDiscount10.innerText = "save 10%";
+            //add class to style the tooltip
+            variationDiscount10.classList.add('variation-discount-tooltip');
+        }
+
+        //function to create 15% discount tooltip
+        function createDiscount15Tooltip() {
+            //pick second variant button
+            const variantDiscount15Button = variationButtons[2];
+            //create span that will wrap the tooltip
+            const variantDiscount15 = document.createElement('span');
+            //append this span to the button
+            variantDiscount15Button.appendChild(variantDiscount15);
+            //add inner text with the discount text
+            variantDiscount15.innerText = "save 15%";
+            //add class to style the tooltip
+            variantDiscount15.classList.add('variation-discount-tooltip');
+        }*/
 
         //calculate price function
         function calculatePrice(priceValue) {
