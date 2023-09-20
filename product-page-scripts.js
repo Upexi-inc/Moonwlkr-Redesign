@@ -102,12 +102,19 @@ window.addEventListener('DOMContentLoaded', () => {
         variationButtons.forEach(button => {
             //change product price according to clicked variation
             button.addEventListener('click', function () {
-                //assign new clicked button index value
-                clickedBtnIdx = Array.from(variationButtons).indexOf(button);
-                //run the price function to get the new variation prices
-                price();
-                //run the updatePriceElements function to change price values on their respective html elements
-                updatePriceElements();
+                setTimeout(() => {
+                    //assign new clicked button index value
+                    clickedBtnIdx = Array.from(variationButtons).indexOf(button);
+                    //check if product has a max quantity of 1 
+                    if (quantityInput.getAttribute('max') === '1') {
+                        //if true, attribute that value to inputQtyNumber for the price calculation
+                        inputQtyNumber = 1;
+                    }
+                    //run the price function to get the new variation prices
+                    price();
+                    //run the updatePriceElements function to change price values on their respective html elements
+                    updatePriceElements();
+                }, "20");
             });
         });
 
