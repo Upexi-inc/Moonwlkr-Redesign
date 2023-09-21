@@ -16,23 +16,10 @@ window.addEventListener('DOMContentLoaded', () => {
         let inputQtyNumber = Number(quantityInput.value);
 
         //create + button
-        const stepUpButton = document.createElement('button');
-        const stepUpButtonIcon = document.createElement('i');
-
-        stepUpButton.setAttribute('type', 'button');
-        quantityInputContainer.appendChild(stepUpButton);
-        stepUpButton.appendChild(stepUpButtonIcon);
-        stepUpButtonIcon.classList.add('fa-solid', 'fa-plus', 'increment-button');
+        const stepUpButton = createStepUpButton();
 
         //create - button
-        const stepDownButton = document.createElement('button');
-
-        const stepDownButtonIcon = document.createElement('i');
-
-        stepDownButton.setAttribute('type', 'button');
-        quantityInputContainer.prepend(stepDownButton);
-        stepDownButton.appendChild(stepDownButtonIcon);
-        stepDownButtonIcon.classList.add('fa-solid', 'fa-minus', 'increment-button');
+        const stepDownButton = createStepDownButton();
 
         //declaring variables to contain sale and regular price values
         //sale and regular prices for the most common scenario (products are almost always on sale)
@@ -124,6 +111,34 @@ window.addEventListener('DOMContentLoaded', () => {
         });
 
         //FUNCTIONS
+
+        //function to create step down button on the quantity selector
+        function createStepDownButton() {
+            const stepDownButton = document.createElement('button');
+
+            const stepDownButtonIcon = document.createElement('i');
+
+            stepDownButton.setAttribute('type', 'button');
+            quantityInputContainer.prepend(stepDownButton);
+            stepDownButton.appendChild(stepDownButtonIcon);
+            stepDownButtonIcon.classList.add('fa-solid', 'fa-minus', 'increment-button');
+
+            return stepDownButton;
+        }
+
+        //function to create the step up button on the quantity selector
+
+        function createStepUpButton() {
+            const stepUpButton = document.createElement('button');
+            const stepUpButtonIcon = document.createElement('i');
+
+            stepUpButton.setAttribute('type', 'button');
+            quantityInputContainer.appendChild(stepUpButton);
+            stepUpButton.appendChild(stepUpButtonIcon);
+            stepUpButtonIcon.classList.add('fa-solid', 'fa-plus', 'increment-button');
+
+            return stepUpButton;
+        }
 
         //function to create discount tooltips (10% off, 15% off) above the product variation buttons
         function createTooltips() {
