@@ -1,7 +1,10 @@
 window.addEventListener('DOMContentLoaded', () => {
     //setTimeout to allow all elements to load that for some reason don't load with DOM
-    setTimeout(() => {
-
+    
+    //move callback to its own function to be called by the timeout for readability
+    setTimeout(() => dynamicPriceFunc(), "500");
+        
+    const dynamicPriceFunc = () => {
         //declare add to cart button element
         const productAddToCartBtn = document.querySelector('.product-display .single_add_to_cart_button');
 
@@ -291,5 +294,5 @@ window.addEventListener('DOMContentLoaded', () => {
                 regularPriceContainer.innerHTML = `<span class="woocommerce-Price-currencySymbol">$</span>${regularPriceNumber}`;
             }
         }
-    }, "500");
+    };
 });
