@@ -125,27 +125,37 @@ window.addEventListener('DOMContentLoaded', () => {
 
         //FUNCTIONS
 
+        //function to create discount tooltips (10% off, 15% off) above the product variation buttons
         function createTooltips() {
+            //There can be up to 2 variations with these tooltips so i'm storing them in an array. It's an empty array because I'll have to create the HTML elements further down this function
             let tooltips = [];
 
+            //Since the default variation does not require a discount tooltip, we'll need to create an array of the variation buttons excluding the first button (default variation) or the second button if it's an amanita product (because the default variation is the second button on these products for wtv reason - woocommerce am i right?)
             let variationButtonsArray;
 
+            //check if it's an amanita product for the reasons described above
             if (item.categories.includes('Amanita Muscaria Gummies')) {
+                //if true, create array with the other button that is discounted
                 variationButtonsArray = Array.of(Array.from(variationButtons)[0]);
             } else {
+                //for all other products, create array of all buttons except the first one
                 variationButtonsArray = Array.from(variationButtons).slice(1);
             }
 
+            //Create a span for the tooltip for each button on the array and append it to the the respective button. Push these new elements onto the tooltips array
             variationButtonsArray.forEach(button => {
                 tooltips.push(button.appendChild(document.createElement('span')));
             });
 
+            //assign the class variation-discount-tooltip to all the tooltips in the array
             tooltips.forEach(tooltip => {
                 tooltip.classList.add('variation-discount-tooltip');
             });
 
+            //assign 10% tooltip text to the first tooltip on the array
             tooltips[0].innerText = "save 10%";
 
+            //if there's 2nd tooltip, assign the 15% off text to it
             if (tooltips.length === 2) {
                 tooltips[1].innerText = "save 15%";
             }
