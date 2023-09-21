@@ -268,3 +268,9 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         }
     };
+
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    ////I think this mostly looks good! My main critique would be that this script
+    ////would likely exist better enqueued in a child theme file or a plugin than in a divi code module script tag
+    ////also I think some of the DOM selectors could be made more efficient, like using getElementsByClassName instead of querySelectorAll
+    ////but overall I think this is great and it works!
