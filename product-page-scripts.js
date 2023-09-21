@@ -1,8 +1,8 @@
 window.addEventListener('DOMContentLoaded', () => {
     //setTimeout to allow all elements to load that for some reason don't load with DOM
-    
     //move callback to its own function to be called by the timeout for readability
     setTimeout(() => dynamicPriceFunc(), "500");
+});
         
     const dynamicPriceFunc = () => {
         //declare add to cart button element
@@ -179,33 +179,6 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        /*
-        //function to create 10% discount tooltip
-        function createDiscount10Tooltip() {
-            //create span that will wrap the tooltip
-            const variationDiscount10 = document.createElement('span');
-            //append this span to the button
-            variationButtons[1].appendChild(variationDiscount10);
-            //add inner text with the discount text
-            variationDiscount10.innerText = "save 10%";
-            //add class to style the tooltip
-            variationDiscount10.classList.add('variation-discount-tooltip');
-        }
-
-        //function to create 15% discount tooltip
-        function createDiscount15Tooltip() {
-            //pick second variant button
-            const variantDiscount15Button = variationButtons[2];
-            //create span that will wrap the tooltip
-            const variantDiscount15 = document.createElement('span');
-            //append this span to the button
-            variantDiscount15Button.appendChild(variantDiscount15);
-            //add inner text with the discount text
-            variantDiscount15.innerText = "save 15%";
-            //add class to style the tooltip
-            variantDiscount15.classList.add('variation-discount-tooltip');
-        }*/
-
         //calculate price function
         function calculatePrice(priceValue) {
             //multiply quantity value by price value
@@ -295,4 +268,3 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         }
     };
-});
