@@ -1,13 +1,12 @@
-@media screen and (max-width: 550px) {
-    .et-db #et-boc .et-l .et_pb_wc_images_0_tb_body .woocommerce-product-gallery .woocommerce-product-gallery__wrapper .woocommerce-product-gallery__image {
-        pointer-events: none;
+/*change shop + collection pages styles on mobile --temporary--*/
+@media screen and (max-width: 767px) {
+    body.archive .container:first-of-type {
+        padding-top: 40px !important;
     }
-}
 
-@media screen and (max-width: 379px) {}
-
-.menu .menu-item a {
-    color: #000 !important;
+    body.archive .woocommerce-products-header__title.page-title {
+        font-size: 25px;
+    }
 }
 
 #footer-widgets .footer-widget li {
@@ -153,7 +152,7 @@
     color: #000 !important;
 }
 
-#main-footer {
+*/ #main-footer {
     background-color: #ffffff !important;
     color: #000 !important;
 }
@@ -177,16 +176,154 @@ div#footer-bottom {
     font-weight: 700;
 }
 
+ORDER RECEIVED PAGE .woocommerce-order-received .et_pb_wc_checkout_payment_info {
+    background-color: white !important;
+}
+
+.woocommerce-order-received p.woocommerce-thankyou-order-received.woocommerce-notice--success,
+.woocommerce-order-received h2.woocommerce-order-details__title,
+.woocommerce-order-received .woocommerce-customer-details h2.woocommerce-column__title {
+    font-family: 'fresno', sans-serif !important;
+    font-size: 42px !important;
+    line-height: 52px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #2A3167;
+}
+
+.woocommerce-order-received p.woocommerce-thankyou-order-received.woocommerce-notice--success {
+    text-align: center;
+}
+
+.woocommerce-order-received .woocommerce-thankyou-order-details.order_details {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.woocommerce-order-received .woocommerce-thankyou-order-details.order_details li,
+.woocommerce-order-received table.woocommerce-table--order-details thead th,
+.woocommerce-order-received table.woocommerce-table--order-details tfoot th,
+.woocommerce-order-received table.woocommerce-table--custom-fields th {
+    font-family: 'Saira', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #2A3167;
+}
+
+.woocommerce-order-received .woocommerce-thankyou-order-details.order_details li {
+    text-align: center;
+}
+
+.woocommerce-order-received .woocommerce-thankyou-order-details.order_details strong {
+    font-family: 'Roboto Condensed', sans-serif !important;
+    font-size: 18px !important;
+    letter-spacing: normal !important;
+    color: #2A3167;
+}
+
+.woocommerce-order-received .et_pb_row.et_pb_row_1,
+.woocommerce-order-received .et_pb_row.et_pb_row_2,
+.woocommerce-order-received .et_pb_row.et_pb_row_3 {
+    display: none !important;
+}
+
+.woocommerce-order-received .woocommerce-table__line-item.order_item,
+.woocommerce-order-received .woocommerce-table__line-item.order_item .woocommerce-Price-amount.amount,
+.woocommerce-order-received table.woocommerce-table--order-details tfoot td,
+.woocommerce-order-received table.woocommerce-table--custom-fields td,
+.woocommerce-order-received .woocommerce-customer-details address {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 18px;
+    line-height: 26px;
+    color: #2A3167;
+}
+
+.woocommerce-order-received table.woocommerce-table--order-details tfoot tr:last-of-type span.woocommerce-Price-amount.amount {
+    font-family: 'fresno', sans-serif;
+    font-size: 32px;
+    text-transform: uppercase;
+    font-weight: 400 !important;
+}
+
+.woocommerce-order-received table.woocommerce-table--order-details,
+.woocommerce-order-received .woocommerce-column address {
+    margin-top: 15px;
+}
+
+.woocommerce-order-received .woocommerce-columns.woocommerce-columns--addresses {
+    margin-top: 50px !important;
+}
+
+.woocommerce-order-received table.woocommerce-table--custom-fields td,
+.woocommerce-order-received table.woocommerce-table--custom-fields th,
+.woocommerce-order-received .woocommerce-table--order-details th,
+.woocommerce-order-received .woocommerce-table--order-details td {
+    width: 50%;
+}
+
+@media screen and (max-width: 767px) {
+
+    .woocommerce-order-received .woocommerce-thankyou-order-details.order_details {
+        flex-wrap: wrap;
+        justify-content: center;
+        row-gap: 30px;
+        padding-left: 0;
+        margin: 40px auto 20px auto;
+    }
+
+    .woocommerce-order-received .woocommerce-thankyou-order-details.order_details li {
+        flex: 1 0 250px;
+        padding: 0;
+        margin: 0;
+    }
+
+    .woocommerce-order-received .woocommerce-thankyou-order-details.order_details li.date {
+        border: none;
+    }
+
+    .woocommerce-order-received .woocommerce-columns.woocommerce-columns--addresses {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        row-gap: 40px;
+        margin-top: 0 !important;
+    }
+
+    .woocommerce-order-received .et_pb_section,
+    .woocommerce-order-received .et_pb_row:last-of-type {
+        padding-bottom: 0 !important;
+    }
+}
+
+@media screen and (max-width: 570px) {
+    .woocommerce-order-received .woocommerce-thankyou-order-details.order_details li {
+        border: none;
+    }
+}
+
 :root {
-    /*redesign carousel arrows blue*/
+    /* redesign carousel arrows blue */
     --carouselArrowPrevBlue: url("data:image/svg+xml,%3Csvg width='68' height='28' viewBox='0 0 68 28' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0.645649 14.7843L13.4974 27.636C13.8541 27.9923 14.4323 27.9919 14.7886 27.6351C15.145 27.2783 15.1446 26.7002 14.7878 26.3438L3.49231 15.0483L66.993 15.0478C67.2347 15.0481 67.4666 14.952 67.6372 14.7808C67.9913 14.4256 67.9904 13.8505 67.6352 13.4964C67.4652 13.3255 67.2341 13.2294 66.993 13.2294L25.2421 13.2297L3.4913 13.2299L14.7883 1.93294C15.1446 1.57638 15.1443 0.998416 14.7878 0.642145C14.4312 0.285874 13.8528 0.285585 13.4965 0.642145L0.645146 13.4935C0.288873 13.85 0.28909 14.428 0.645649 14.7843Z' fill='%232A3167'/%3E%3C/svg%3E");
 
     --carouselArrowNextBlue: url("data:image/svg+xml,%3Csvg width='68' height='28' viewBox='0 0 68 28' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M67.6328 13.494L54.7811 0.642342C54.4243 0.285998 53.8461 0.286429 53.4898 0.643205C53.1334 0.999981 53.1338 1.57816 53.4906 1.9345L64.7861 13.23L1.28544 13.2305C1.04375 13.2302 0.811846 13.3263 0.641227 13.4975C0.287113 13.8528 0.287975 14.4278 0.64324 14.7819C0.813211 14.9529 1.04433 15.0489 1.28544 15.0489L43.0363 15.0486L64.7871 15.0484L53.4901 26.3454C53.1338 26.7019 53.1341 27.2799 53.4906 27.6362C53.8472 27.9924 54.4256 27.9927 54.7819 27.6362L67.6333 14.7848C67.9895 14.4283 67.9893 13.8503 67.6328 13.494Z' fill='%232A3167'/%3E%3C/svg%3E%0A");
 
-    /*redesign carousel arrows white*/
+    /* redesign carousel arrows white */
     --carouselArrowPrevWhite: url("data:image/svg+xml,%3Csvg width='68' height='28' viewBox='0 0 68 28' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0.645649 14.7843L13.4974 27.636C13.8541 27.9923 14.4323 27.9919 14.7886 27.6351C15.145 27.2783 15.1446 26.7002 14.7878 26.3438L3.49231 15.0483L66.993 15.0478C67.2347 15.0481 67.4666 14.952 67.6372 14.7808C67.9913 14.4256 67.9904 13.8505 67.6352 13.4964C67.4652 13.3255 67.2341 13.2294 66.993 13.2294L25.2421 13.2297L3.4913 13.2299L14.7883 1.93294C15.1446 1.57638 15.1443 0.998416 14.7878 0.642145C14.4312 0.285874 13.8528 0.285585 13.4965 0.642145L0.645146 13.4935C0.288873 13.85 0.28909 14.428 0.645649 14.7843Z' fill='%23FFFFFF'/%3E%3C/svg%3E");
 
     --carouselArrowNextWhite: url("data:image/svg+xml,%3Csvg width='68' height='28' viewBox='0 0 68 28' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M67.6328 13.494L54.7811 0.642342C54.4243 0.285998 53.8461 0.286429 53.4898 0.643205C53.1334 0.999981 53.1338 1.57816 53.4906 1.9345L64.7861 13.23L1.28544 13.2305C1.04375 13.2302 0.811846 13.3263 0.641227 13.4975C0.287113 13.8528 0.287975 14.4278 0.64324 14.7819C0.813211 14.9529 1.04433 15.0489 1.28544 15.0489L43.0363 15.0486L64.7871 15.0484L53.4901 26.3454C53.1338 26.7019 53.1341 27.2799 53.4906 27.6362C53.8472 27.9924 54.4256 27.9927 54.7819 27.6362L67.6333 14.7848C67.9895 14.4283 67.9893 13.8503 67.6328 13.494Z' fill='%23FFFFFF'/%3E%3C/svg%3E%0A");
+
+    /* star icons for stamped badge */
+    --starIconFull: url("data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9.99994 0.974121L11.8525 9.12145L19.9999 10.9741L11.8525 12.8267L9.99994 20.974L8.14733 12.8267L0 10.9741L8.14733 9.12145L9.99994 0.974121Z' fill='%237E52BF'/%3E%3C/svg%3E%0A");
+
+    --starIconFullGrey: url("data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9.99994 0.974121L11.8525 9.12145L19.9999 10.9741L11.8525 12.8267L9.99994 20.974L8.14733 12.8267L0 10.9741L8.14733 9.12145L9.99994 0.974121Z' fill='%23AAAAAA'/%3E%3C/svg%3E%0A");
+
+    --starIconHalf: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 21 21' fill='none'%3E%3Cpath d='M10.1476 3.22913L11.5127 9.23232L11.5825 9.53922L11.8894 9.60901L17.8926 10.9741L11.8894 12.3391L11.5825 12.4089L11.5127 12.7158L10.1476 18.719L8.78259 12.7158L8.7128 12.4089L8.4059 12.3391L2.40272 10.9741L8.4059 9.60901L8.7128 9.53922L8.78259 9.23232L10.1476 3.22913Z' fill='url(%23paint0_linear_9690_3350)' stroke='%237E52BF'/%3E%3Cdefs%3E%3ClinearGradient id='paint0_linear_9690_3350' x1='-1.3125' y1='11' x2='21.6875' y2='11' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0.5' stop-color='%237E52BF'/%3E%3Cstop offset='0.5001' stop-color='%23D9D9D9' stop-opacity='0'/%3E%3Cstop offset='0.5002' stop-color='%23D9D9D9' stop-opacity='0'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E");
+
+    --starIconEmpty: url("data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 20 21' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11.365 9.23232L11.4348 9.53922L11.7417 9.60901L17.7449 10.9741L11.7417 12.3391L11.4348 12.4089L11.365 12.7158L9.99994 18.719L8.63489 12.7158L8.5651 12.4089L8.2582 12.3391L2.25501 10.9741L8.2582 9.60901L8.5651 9.53922L8.63489 9.23232L9.99994 3.22913L11.365 9.23232Z' stroke='%237E52BF'/%3E%3C/svg%3E");
 }
 
 @media screen and (max-width: 600px) {
@@ -212,9 +349,9 @@ div#footer-bottom {
     }
 }
 
-/*span.stamped-product-reviews-badge.stamped-main-badge {
+span.stamped-product-reviews-badge.stamped-main-badge {
     display: none;
-}*/
+}
 
 button.wbb_remove_product {
     color: white !important;
@@ -244,19 +381,6 @@ button.wbb_add_to_box {
 @media screen and (min-width: 600px) {
     #cart_empty_btn {
         font-size: 19px;
-    }
-}
-
-/*change shop + collection pages styles --temporary until new shop and collection page designs--*/
-body.archive .container:first-of-type {
-    width: 1170px !important;
-    max-width: 90% !important;
-    padding-top: 40px !important;
-}
-
-@media screen and (max-width: 767px) {
-    body.archive .woocommerce-products-header__title.page-title {
-        font-size: 25px;
     }
 }
 

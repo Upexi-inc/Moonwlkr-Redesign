@@ -1,0 +1,370 @@
+/*footer*/
+#footer-widgets .footer-widget li {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.textwidget p {
+    color: #000;
+    font-weight: bold;
+    font-size: 15px !important;
+}
+
+#footer-widgets .footer-widget li:before {
+    content: none;
+}
+
+#footer-widgets .footer-widget li {
+    padding-left: 0;
+}
+
+#main-footer {
+    background-color: #ffffff !important;
+    color: #000 !important;
+}
+
+#main-footer:after {
+    text-align: center !important;
+    display: block;
+    content: "The statements made regarding these products have not been evaluated by the Food and Drug Administration. The efficacy of these products has not been confirmed by FDA-approved research. These products are not intended to diagnose, treat, cure or prevent any disease. All information presented here is not meant as a substitute for or alternative to information from healthcare practitioners. Please consult your healthcare professional about potential interactions or other possible complications before using any product. The Federal Food, Drug, and Cosmetic Act requires this notice." !important;
+    max-width: 1330px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+}
+
+div#footer-bottom {
+    display: none;
+}
+
+/*added to cart popup styles*/
+button.added .xoo-cp-added,
+a.added_to_cart {
+    display: none !important;
+}
+
+.xoo-cp-container {
+    max-width: 1290px;
+    padding: 30px;
+    font-family: 'Saira', sans-serif;
+}
+
+span.xoo-cp-close {
+    color: #233754;
+}
+
+td.xoo-cp-ptitle a,
+td.xoo-cp-pprice bdi {
+    color: #233754;
+    font-size: 35px;
+    font-family: 'fresno', sans-serif;
+    font-weight: 400 !important;
+}
+
+td.xoo-cp-ptitle a p {
+    display: none !important;
+}
+
+span.xcp-ptotal {
+    font-size: 28px;
+    font-weight: 700;
+    color: #233754;
+}
+
+.xoo-cp-qtybox {
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px;
+    border-radius: 100px;
+    height: auto;
+    border: 2px solid transparent;
+    background: linear-gradient(#fff, #fff) padding-box, linear-gradient(to left, #4BBEFE 11.8%, #4364DA 55.86%, #5A3BA4 97.39%) border-box !important;
+}
+
+.xoo-cp-qtybox span.xcp-plus,
+.xoo-cp-qtybox span.xcp-minus {
+    border: none !important;
+    font-size: 25px;
+    color: #233754;
+}
+
+input[type=number].xoo-cp-qty {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.xoo-cp-ptotal .xcp-totxt {
+    color: #233754;
+}
+
+.xoo-cp-btns {
+    margin-top: 60px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.xoo-cp-btns a.xcp-btn {
+    color: #ffffff !important;
+    border-color: RGBA(255, 255, 255, 0);
+    border-radius: 100px;
+    letter-spacing: 2px;
+    font-size: 16px;
+    font-family: 'Saira', Helvetica, Arial, Lucida, sans-serif !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    background-image: linear-gradient(90deg, #5a3ba4 0%, #4364da 57%, #4bbefe 90%) !important;
+    padding: 12px 0;
+    box-shadow: 0px 29.999998092651367px 29.999998092651367px 0px rgba(0, 0, 0, 0.10);
+    border: none !important;
+    transition: transform .2s ease;
+}
+
+.xoo-cp-btns a.xcp-btn:hover {
+    transform: translateY(-5px);
+}
+
+@media screen and (max-width: 980px) {
+    table.xoo-cp-pdetails {
+        display: flex;
+        justify-content: center;
+    }
+
+    table.xoo-cp-pdetails tr {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        position: relative;
+    }
+
+    table.xoo-cp-pdetails tr td {
+        width: 100%;
+    }
+
+    .xoo-cp-atcn {
+        text-align: center;
+    }
+
+    td.xoo-cp-remove {
+        width: 100% !important;
+        order: 4;
+    }
+
+    td.xoo-cp-remove .xoo-cp-remove-pd {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        text-decoration: underline;
+        font-family: 'Saira', sans-serif !important;
+    }
+
+    td.xoo-cp-remove .xoo-cp-icon-cross::before {
+        content: "Remove Item" !important;
+    }
+
+    td.xoo-cp-pimg {
+        order: 1;
+    }
+
+    td.xoo-cp-pimg img {
+        max-width: 200px;
+    }
+
+    .xoo-cp-pdetails td.xoo-cp-ptitle {
+        order: 2;
+        text-align: center !important;
+    }
+
+    td.xoo-cp-pprice {
+        order: 3;
+    }
+
+    td.xoo-cp-pqty {
+        order: 5;
+    }
+
+    .xoo-cp-qtybox {
+        width: 50%;
+        margin: 20px auto 0 auto;
+    }
+
+    .xoo-cp-ptotal {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin: 30px auto;
+    }
+
+    .xoo-cp-btns a.xcp-btn {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .xoo-cp-container {
+        padding: 10px 15px;
+    }
+
+    .xoo-cp-atcn {
+        padding: 5px 0;
+    }
+
+    .xoo-cp-ptotal {
+        margin: 30px auto 15px auto;
+    }
+
+    td.xoo-cp-ptitle a,
+    td.xoo-cp-pprice bdi {
+        font-size: 30px;
+    }
+
+    .xoo-cp-qtybox {
+        width: 40%;
+        padding: 8px 0;
+    }
+
+    .xoo-cp-btns {
+        margin-top: 0;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .xoo-cp-btns a.xcp-btn {
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    td.xoo-cp-pimg {
+        display: block !important;
+    }
+
+    td.xoo-cp-pimg img {
+        max-width: 100px;
+    }
+
+    .xoo-cp-btns a.xcp-btn {
+        width: 100%;
+    }
+}
+
+.wbb_bundle_status .wbb_view_bundle button {
+    color: #FFF !important;
+}
+
+/*.woocommerce div.product form.cart .button {
+    float: none;
+}*/
+
+.post-meta {
+    display: none;
+}
+
+#customer_birthday {
+    padding: 15px;
+    font-size: 14px;
+    border-radius: 3px;
+    border: 1px solid #BBBABC;
+}
+
+.woocommerce-message a.button.wc-forward:hover {
+    color: #6079E1;
+}
+
+.wbb_bundle_status .wbb_view_bundle button {
+    color: #6079E1;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 0.3em 1em;
+    line-height: 1.7em !important;
+    /*background: transparent;*/
+    background: #6079E1;
+    position: relative;
+    /*border: 2px solid;*/
+    border-radius: 3px;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+}
+
+.wlr-product-message {
+    display: none !important;
+}
+
+.posted_in {
+    display: none;
+}
+
+#top-menu li a {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/*redesign amanita page price font-weight*/
+.product-display span.woocommerce-Price-amount.amount {
+    font-weight: 300 !important;
+}
+
+.et_search_form_container input {
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+@media screen and (max-width: 600px) {
+    #main-footer:after {
+        max-width: 320px;
+        font-size: 11px;
+    }
+
+    .et-search-form {
+        right: -20px;
+    }
+
+    .et_search_outer .container {
+        width: 100%;
+    }
+
+    #main-header .container {
+        width: 95%;
+    }
+
+    #newton-field-email {
+        width: 100% !important;
+    }
+}
+
+button.wbb_remove_product {
+    color: white !important;
+}
+
+button.wbb_add_to_box {
+    color: white !important;
+}
+
+.wbb_add_to_cart {
+    margin-bottom: 5px;
+}
+
+#cart_empty_btn {
+    background: #c48c86;
+    color: #ffffff;
+    border-radius: 6px;
+    height: 50px;
+    width: 155px;
+    border: none;
+}
+
+.onsale {
+    display: none;
+}
+
+@media screen and (min-width: 600px) {
+    #cart_empty_btn {
+        font-size: 19px;
+    }
+}
